@@ -42,7 +42,7 @@ namespace LandRentManagementApp.Data
 
         public void Add(Farmer farmer)
         {
-            const string sql = @"INSERT INTO dbo.Farmer (FarmerId, Name, Surname, IDNP, Residence, Phone, Email) 
+            const string sql = @"INSERT INTO dbo.Farmer (Name, Surname, IDNP, Residence, Phone, Email) 
                 VALUES (@Name, @Surname, @IDNP, @Residence, @Phone, @Email)";
             DatabaseHelper.ExecuteNonQuery(sql, p =>
             {
