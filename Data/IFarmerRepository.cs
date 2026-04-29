@@ -15,6 +15,6 @@ namespace LandRentManagementApp.Data
         void Update(Farmer farmer);
         void Delete(int id);
         List<Farmer> Search(string term);
-        bool ExistaIdnp(string idnp, int excludeId = 0);
+        bool ExistsIdnp(string idnp, int excludeId = 0);
     }
 }

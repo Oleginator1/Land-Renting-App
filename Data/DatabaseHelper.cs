@@ -38,7 +38,7 @@ namespace LandRentManagementApp.Data
             cmd.ExecuteNonQuery();
         }
 
-        public static List<T> ExecuteReaded<T>(string sql, Func<SqlDataReader, T> map, Action<SqlParameterCollection>? addParams = null)
+        public static List<T> ExecuteReader<T>(string sql, Func<SqlDataReader, T> map, Action<SqlParameterCollection>? addParams = null)
         {
             var results = new List<T>();
             using var conn = GetConnection();
