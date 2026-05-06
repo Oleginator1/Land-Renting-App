@@ -15,7 +15,7 @@ namespace LandRentManagementApp.Data
         public static IFarmerRepository FarmerRepo =>
             _farmerRepo ??= new FarmerRepository();
 
-        public static ILandRepository TerenRepo =>
+        public static ILandRepository LandRepo =>
             _landRepo ??= new LandRepository();
 
         public static IContractRepository ContractRepo =>
