@@ -17,7 +17,7 @@ namespace LandRentManagementApp.Forms
         {
             InitializeComponent();
             TestConnection();
-            
+
         }
 
         private void TestConnection()
@@ -39,7 +39,7 @@ namespace LandRentManagementApp.Forms
                     MessageBoxIcon.Error);
             }
         }
-        
+
         private void VerificaConexiune()
         {
             if (DatabaseHelper.TestConnection())
@@ -92,6 +92,11 @@ namespace LandRentManagementApp.Forms
         }
 
         private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panelContent_Paint(object sender, PaintEventArgs e)
         {
 
         }
