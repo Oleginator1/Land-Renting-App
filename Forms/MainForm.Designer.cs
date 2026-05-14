@@ -77,14 +77,14 @@
             menuTerenuri.Name = "menuTerenuri";
             menuTerenuri.Size = new Size(225, 24);
             menuTerenuri.Text = "🌾 Terenuri";
-            menuTerenuri.Click += menuTerenuri_Click;
+            //menuTerenuri.Click += menuTerenuri_Click;
             // 
             // menuContracte
             // 
             menuContracte.Name = "menuContracte";
             menuContracte.Size = new Size(225, 24);
             menuContracte.Text = "📄 Contracte de Arendă";
-            menuContracte.Click += menuContracte_Click;
+            //menuContracte.Click += menuContracte_Click;
             // 
             // menuItemRapoarte
             // 
@@ -99,7 +99,7 @@
             menuRaport.Name = "menuRaport";
             menuRaport.Size = new Size(199, 24);
             menuRaport.Text = "📈 Raport Financiar";
-            menuRaport.Click += menuRaport_Click;
+            //menuRaport.Click += menuRaport_Click;
             // 
             // menuItemAplicatie
             // 

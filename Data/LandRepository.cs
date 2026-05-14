@@ -51,7 +51,7 @@ namespace LandRentManagementApp.Data
         public void Update(Land land)
         {
             const string sql = @"UPDATE dbo.Land SET Area = @Area, Category = @Category, LandLocation = @LandLocation, AnnualRentPrice = @AnnualPrice, Description = @Description
-                    WHERE Id = @Id";
+                    WHERE LandId = @Id";
             DatabaseHelper.ExecuteNonQuery(sql, p =>
             {
                 p.AddWithValue("@Area", land.Area);

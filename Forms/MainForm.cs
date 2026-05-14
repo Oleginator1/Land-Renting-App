@@ -39,26 +39,7 @@ namespace LandRentManagementApp.Forms
                     MessageBoxIcon.Error);
             }
         }
-
-        private void VerificaConexiune()
-        {
-            if (DatabaseHelper.TestConnection())
-            {
-                statusLabel.Text = "✔ Conectat la baza de date";
-                statusLabel.ForeColor = Color.Green;
-            }
-            else
-            {
-                statusLabel.Text = "✘ Eroare conexiune baza de date";
-                statusLabel.ForeColor = Color.Red;
-                MessageBox.Show(
-                    "Nu s-a putut conecta la baza de date!\n" +
-                    "Verificați că SQL Server este pornit și că stringul de conexiune este corect.",
-                    "Eroare conexiune",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-        }
+              
 
         private void AfiseazaFormular(Form form)
         {
@@ -72,16 +53,16 @@ namespace LandRentManagementApp.Forms
 
 
         private void menuFermieri_Click(object sender, EventArgs e)
-            => AfiseazaFormular(new FermierListForm());
+            => AfiseazaFormular(new FarmerListForm());
 
-        private void menuTerenuri_Click(object sender, EventArgs e)
+        /*private void menuTerenuri_Click(object sender, EventArgs e)
             => AfiseazaFormular(new LandListForm());
 
         private void menuContracte_Click(object sender, EventArgs e)
             => AfiseazaFormular(new ContractListForm());
 
         private void menuRaport_Click(object sender, EventArgs e)
-            => new ReportForm().ShowDialog(this);
+            => new ReportForm().ShowDialog(this);*/
 
         private void menuIesire_Click(object sender, EventArgs e)
         {

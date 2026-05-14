@@ -47,7 +47,7 @@ namespace LandRentManagementApp.Data
             DatabaseHelper.ExecuteNonQuery(sql, p =>
             {
                 p.AddWithValue("@Name", farmer.Name);
-                p.AddWithValue("@Prenume", farmer.Surname);
+                p.AddWithValue("@Surname", farmer.Surname);
                 p.AddWithValue("@IDNP", farmer.IDNP);
                 p.AddWithValue("@Residence", farmer.Residence);
                 p.AddWithValue("@Phone", (object?)farmer.Phone ?? DBNull.Value);
@@ -57,7 +57,7 @@ namespace LandRentManagementApp.Data
 
         public void Update(Farmer farmer)
         {
-            const string sql = @"UPDATE dbo.Farmer SET Name=@Name, Surname=@Surname, IDNP=@IDNP, Residence=@Residence, Phone=@Phone, Email=@Email";
+            const string sql = @"UPDATE dbo.Farmer SET Name=@Name, Surname=@Surname, IDNP=@IDNP, Residence=@Residence, Phone=@Phone, Email=@Email WHERE FarmerId=@Id";
             DatabaseHelper.ExecuteNonQuery(sql, p =>
             {
                 p.AddWithValue("@Name", farmer.Name);

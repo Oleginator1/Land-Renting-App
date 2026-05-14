@@ -1,3 +1,5 @@
+using LandRentManagementApp.Forms;
+
 namespace LandRentManagementApp
 {
     internal static class Program

@@ -12,5 +12,10 @@
   <ItemGroup>
 	<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.5" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Forms\MainForm.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+  </ItemGroup>
 
 </Project>

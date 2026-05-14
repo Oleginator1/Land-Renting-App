@@ -1,6 +1,6 @@
 ﻿using LandRentManagementApp.Data;
 
-namespace ArendaManagement.Forms;
+namespace LandRentManagementApp.Forms;
 
 public class WelcomePanel : UserControl
 {

@@ -14,9 +14,9 @@ namespace LandRentManagementApp.Data
         SELECT c.ContractId, c.FarmerId, c.LandId,
                c.ContractSignDate, c.YearsPayed,
                f.Name, f.Surname,
-               t.Category, t.Location, t.AnnualRentPrice
-        FROM dbo.Contract c
-        INNER JOIN dbo.Farmer f ON c.FarmerId = f.Farmer
+               t.Category, t.LandLocation, t.AnnualRentPrice
+        FROM dbo.RentContract c
+        INNER JOIN dbo.Farmer f ON c.FarmerId = f.FarmerId
         INNER JOIN dbo.Land   t ON c.LandId   = t.LandId";
 
         private static Contract Map(SqlDataReader r) => new()
@@ -49,7 +49,7 @@ namespace LandRentManagementApp.Data
         public void Add(Contract c)
         {
             const string sql = @"
-            INSERT INTO dbo.Contract (FarmerId, LandId, ContractSignDate, YearsPayed)
+            INSERT INTO dbo.RentContract (FarmerId, LandId, ContractSignDate, YearsPayed)
             VALUES (@FarmerId, @LandId, @ContractSignDate, @YearsPayed)";
             DatabaseHelper.ExecuteNonQuery(sql, p =>
             {
@@ -63,7 +63,7 @@ namespace LandRentManagementApp.Data
         public void Update(Contract c)
         {
             const string sql = @"
-            UPDATE dbo.Contract
+            UPDATE dbo.RentContract
             SET FarmerId=@FarmerId, LandId=@LandId,
                 ContractSignDate=@ContractSignDate, YearsPayed=@YearsPayed
             WHERE IdContract=@Id";
@@ -79,7 +79,7 @@ namespace LandRentManagementApp.Data
 
         public void Delete(int id)
         {
-            const string sql = "DELETE FROM dbo.Contract WHERE ContractId = @Id";
+            const string sql = "DELETE FROM dbo.RentContract WHERE ContractId = @Id";
             DatabaseHelper.ExecuteNonQuery(sql,
                 p => p.AddWithValue("@Id", id));
         }
@@ -94,7 +94,7 @@ namespace LandRentManagementApp.Data
         public bool ExistsDuplicate(int farmerId, int landId, int excludeId = 0)
         {
             const string sql = @"
-            SELECT COUNT(1) FROM dbo.Contract
+            SELECT COUNT(1) FROM dbo.RentContract
             WHERE FarmerId=@FarmerId AND LandId=@LandId
               AND ContractId <> @ExcludeId";
             var result = DatabaseHelper.ExecuteScalar(sql, p =>

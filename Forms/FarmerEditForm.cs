@@ -5,7 +5,7 @@ using LandRentManagementApp.Models;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace ArendaManagement.Forms;
+namespace LandRentManagementApp.Forms;
 
 public class FarmerEditForm : FormBase
 {
@@ -66,7 +66,6 @@ public class FarmerEditForm : FormBase
         AdaugaCamp(layout, "Telefon:", txtTelefon, 5);
         AdaugaCamp(layout, "Email:", txtEmail, 6);
 
-        // Butoane
         var panelBtns = new FlowLayoutPanel
         {
             FlowDirection = FlowDirection.RightToLeft,
@@ -139,9 +138,9 @@ public class FarmerEditForm : FormBase
         {
             AfiseazaEroare("Verificați câmpurile marcate cu roșu!\n" +
                 "• Câmpurile cu * sunt obligatorii\n" +
-                "• CNP trebuie să aibă 13 cifre\n" +
+                "• IDNP trebuie să aibă 13 cifre\n" +
                 "• Email trebuie să fie valid (ex: name@domain.com)\n" +
-                "• Telefonul trebuie să aibă minim 10 cifre");
+                "• Telefonul trebuie să aibă minim 9 cifre");
             return;
         }
 
@@ -176,15 +175,15 @@ public class FarmerEditForm : FormBase
 
     private bool ValidareEmail(string email)
     {
-        if (string.IsNullOrWhiteSpace(email)) return true; // opțional
+        if (string.IsNullOrWhiteSpace(email)) return true; 
         return email.Contains('@') && email.Contains('.') && email.Length > 5;
     }
 
     private bool ValidareTelefon(string telefon)
     {
-        if (string.IsNullOrWhiteSpace(telefon)) return true; // opțional
+        if (string.IsNullOrWhiteSpace(telefon)) return true; 
         var cifre = new string(telefon.Where(char.IsDigit).ToArray());
-        return cifre.Length >= 10;
+        return cifre.Length >= 9;
     }
 
     private void SetCampEroare(TextBox tb, bool eroare)
