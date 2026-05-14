@@ -15,10 +15,14 @@ public class FarmerListForm : FormBase
     private Button btnAdd;
     private Button btnEdit;
     private Button btnDelete;
+    private Button btnContracte;
     private Button btnRefresh;
     private Label lblCount;
     private System.Windows.Forms.Timer searchTimer;
 
+    
+
+  
     public FarmerListForm()
     {
         grid = new DataGridView();
@@ -27,6 +31,7 @@ public class FarmerListForm : FormBase
         btnAdd = new Button();
         btnEdit = new Button();
         btnDelete = new Button();
+        btnContracte = new Button();
         btnRefresh = new Button();
         lblCount = new Label();
         searchTimer = new System.Windows.Forms.Timer();
@@ -77,6 +82,13 @@ public class FarmerListForm : FormBase
         btnDelete.Width = 110;
         btnDelete.Height = 36;
         UITheme.ApplyButtonStyle(btnDelete, true);
+
+        btnContracte.Text = "📄 Contracte";
+        btnContracte.Left = 750;
+        btnContracte.Top = 12;
+        btnContracte.Width = 120;
+        btnContracte.Height = 36;
+        UITheme.ApplyButtonStyle(btnContracte, false);
 
         btnRefresh.Text = "🔄 Reîncarcă";
         btnRefresh.Left = 860;
@@ -378,6 +390,16 @@ public class FarmerListForm : FormBase
             TrateazaExceptie(ex, "ștergere fermier");
         }
     }
+
+    /*private void DeschideContracteFermier()
+    {
+        var fermier = GetFermierSelectat();
+        if (fermier == null)
+        { AfiseazaInfo("Selectați un fermier pentru a vedea contractele!"); return; }
+
+        var form = new ContractListForm(fermier);
+        form.ShowDialog(this);
+    }*/
 
     protected override void Dispose(bool disposing)
     {
