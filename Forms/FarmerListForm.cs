@@ -252,6 +252,13 @@ public class FarmerListForm : FormBase
         }
     }
 
+    private Button CreazaButon(string text, bool isDanger)
+    {
+        var btn = new Button { Text = text, Height = 36 };
+        UITheme.ApplyButtonStyle(btn, isDanger);
+        return btn;
+    }
+
     private void IncarcaDate(List<Farmer>? lista = null)
     {
         try
