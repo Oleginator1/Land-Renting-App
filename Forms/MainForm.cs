@@ -55,10 +55,10 @@ namespace LandRentManagementApp.Forms
         private void menuFermieri_Click(object sender, EventArgs e)
             => AfiseazaFormular(new FarmerListForm());
 
-        /*private void menuTerenuri_Click(object sender, EventArgs e)
+        private void menuTerenuri_Click(object sender, EventArgs e)
             => AfiseazaFormular(new LandListForm());
 
-        private void menuContracte_Click(object sender, EventArgs e)
+        /*private void menuContracte_Click(object sender, EventArgs e)
             => AfiseazaFormular(new ContractListForm());
 
         private void menuRaport_Click(object sender, EventArgs e)

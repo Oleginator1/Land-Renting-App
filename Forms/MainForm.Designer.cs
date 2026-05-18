@@ -77,7 +77,7 @@
             menuTerenuri.Name = "menuTerenuri";
             menuTerenuri.Size = new Size(225, 24);
             menuTerenuri.Text = "🌾 Terenuri";
-            //menuTerenuri.Click += menuTerenuri_Click;
+            menuTerenuri.Click += menuTerenuri_Click;
             // 
             // menuContracte
             // 
