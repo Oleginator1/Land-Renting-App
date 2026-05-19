@@ -197,11 +197,11 @@ public class LandListForm : FormBase
 
             if (grid.Columns.Count > 0)
             {
-                grid.Columns["Suprafata"].HeaderText = "Suprafață (ha)";
-                grid.Columns["Categoria"].HeaderText = "Categorie";
-                grid.Columns["Zona"].HeaderText = "Zonă";
+                grid.Columns["Area"].HeaderText = "Suprafață (ha)";
+                grid.Columns["Category"].HeaderText = "Categorie";
+                grid.Columns["LandLocation"].HeaderText = "Zonă";
                 grid.Columns["PretArendaAnual"].HeaderText = "Preț Arendă / An";
-                grid.Columns["Descriere"].HeaderText = "Descriere";
+                grid.Columns["LandDescription"].HeaderText = "Descriere";
             }
             grid.Tag = lista;
             lblCount.Text = $"Total: {lista.Count} terenuri";

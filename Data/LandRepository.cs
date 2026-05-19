@@ -36,21 +36,21 @@ namespace LandRentManagementApp.Data
 
         public void Add(Land land)
         {
-            const string sql = @"INSERT INTO dbo.Land (Area, Category, LandLocation, AnnualRentPrice, Description) 
-                VALUES (@Area, @Category, @LandLocation, @AnnualRentPrice, @Description)";
+            const string sql = @"INSERT INTO dbo.Land (Area, Category, LandLocation, AnnualRentPrice, LandDescription) 
+                VALUES (@Area, @Category, @LandLocation, @AnnualRentPrice, @LandDescription)";
             DatabaseHelper.ExecuteNonQuery(sql, p =>
             {
                 p.AddWithValue("@Area", land.Area);
                 p.AddWithValue("@Category", land.Category);
                 p.AddWithValue("@LandLocation", land.LandLocation);
                 p.AddWithValue("@AnnualRentPrice", land.AnnualRentPrice);
-                p.AddWithValue("@Description", (object?)land.LandDescription ?? DBNull.Value);
+                p.AddWithValue("@LandDescription", (object?)land.LandDescription ?? DBNull.Value);
             });
         }
 
         public void Update(Land land)
         {
-            const string sql = @"UPDATE dbo.Land SET Area = @Area, Category = @Category, LandLocation = @LandLocation, AnnualRentPrice = @AnnualPrice, Description = @Description
+            const string sql = @"UPDATE dbo.Land SET Area = @Area, Category = @Category, LandLocation = @LandLocation, AnnualRentPrice = @AnnualRentPrice, LandDescription = @LandDescription
                     WHERE LandId = @Id";
             DatabaseHelper.ExecuteNonQuery(sql, p =>
             {
@@ -58,7 +58,7 @@ namespace LandRentManagementApp.Data
                 p.AddWithValue("@Category", land.Category);
                 p.AddWithValue("@LandLocation", land.LandLocation);
                 p.AddWithValue("@AnnualRentPrice", land.AnnualRentPrice);
-                p.AddWithValue("@Description", (object?)land.LandDescription ?? DBNull.Value);
+                p.AddWithValue("@LandDescription", (object?)land.LandDescription ?? DBNull.Value);
                 p.AddWithValue("@Id", land.LandId);
 
             });
@@ -77,8 +77,8 @@ namespace LandRentManagementApp.Data
             if (!string.IsNullOrWhiteSpace(location)) where.Add("LandLocation = @LandLocation");
             if (!string.IsNullOrWhiteSpace(category)) where.Add("Category = @Category");
 
-            string sql = "SELECT LandId, Area, Category, LandLocation, AnnualRentPrice, Description" +
-                         "FROM dbo.Teren";
+            string sql = "SELECT LandId, Area, Category, LandLocation, AnnualRentPrice, LandDescription" +
+                         " FROM dbo.Land";
             if (where.Count > 0)
                 sql += " WHERE " + string.Join(" AND ", where);
             sql += " ORDER BY LandLocation, Category";
