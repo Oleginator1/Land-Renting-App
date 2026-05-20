@@ -16,6 +16,7 @@ public class LandListForm : FormBase
     private Button btnEdit = new();
     private Button btnDelete = new();
     private Label lblCount = new();
+    private Panel panelDetalii = new();
 
     public LandListForm()
     {
@@ -142,6 +143,47 @@ public class LandListForm : FormBase
         UITheme.ApplyGridStyle(grid);
         grid.CellDoubleClick += (s, e) => { if (e.RowIndex >= 0) DeschideEditare(); };
 
+        panelDetalii = new Panel
+        {
+            Dock = DockStyle.Right,
+            Width = 250,
+            BackColor = Color.White,
+            Padding = new Padding(15)
+        };
+
+        var lblDetaliiTitlu = new Label
+        {
+            Text = "📋 Detalii Teren",
+            Font = UITheme.FontSubtitle,
+            ForeColor = UITheme.PrimaryGreen,
+            Dock = DockStyle.Top,
+            Height = 30
+        };
+
+        var lblDetaliiContent = new Label
+        {
+            Text = "Selectați un teren\npentru detalii.",
+            Font = UITheme.FontNormal,
+            Dock = DockStyle.Fill,
+            ForeColor = UITheme.TextGray
+        };
+
+        panelDetalii.Controls.Add(lblDetaliiContent);
+        panelDetalii.Controls.Add(lblDetaliiTitlu);
+        Controls.Add(panelDetalii);
+        grid.SelectionChanged += (s, e) =>
+        {
+            var teren = GetTerenSelectat();
+            if (teren != null)
+            {
+                lblDetaliiContent.Text =
+                    $"🌾 Suprafață:\n  {teren.Area:F2} ha\n\n" +
+                    $"📂 Categorie:\n  {teren.Category}\n\n" +
+                    $"📍 Zonă:\n  {teren.LandLocation}\n\n" +
+                    $"💰 Preț/An:\n  {teren.AnnualRentPrice:N2} RON\n\n" +
+                    $"📝 Descriere:\n  {teren.LandDescription ?? "—"}";
+            }
+        };
         Controls.Add(grid);
         Controls.Add(panelFilter);
         Controls.Add(toolbar);
