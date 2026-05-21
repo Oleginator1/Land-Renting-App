@@ -17,6 +17,7 @@ public class LandListForm : FormBase
     private Button btnDelete = new();
     private Label lblCount = new();
     private Panel panelDetalii = new();
+    private Button btnExport = new();
 
     public LandListForm()
     {
@@ -188,6 +189,10 @@ public class LandListForm : FormBase
         Controls.Add(panelFilter);
         Controls.Add(toolbar);
 
+        btnExport = CBtn("📤 Export CSV", 980, false);
+        toolbar.Controls.Add(btnExport);
+        btnExport.Click += ExportCSV;
+
         btnAdd.Click += (s, e) => DeschideAdaugare();
         btnEdit.Click += (s, e) => DeschideEditare();
         btnDelete.Click += (s, e) => StergeSelectat();
@@ -303,5 +308,35 @@ public class LandListForm : FormBase
             IncarcaFiltreDropDown(); IncarcaDate();
         }
         catch (Exception ex) { TrateazaExceptie(ex, "ștergere teren"); }
+    }
+
+
+    private void ExportCSV(object? sender, EventArgs e)
+    {
+        var dialog = new SaveFileDialog
+        {
+            Filter = "CSV Files (*.csv)|*.csv",
+            FileName = $"Terenuri_{DateTime.Now:yyyyMMdd}.csv"
+        };
+
+        if (dialog.ShowDialog() != DialogResult.OK) return;
+
+        try
+        {
+            var lista = ServiceLocator.LandRepo.GetAll();
+            var lines = new List<string>
+        {
+            "Suprafata (ha),Categorie,Zona,Pret Arenda Anual (RON),Descriere"
+        };
+
+            lines.AddRange(lista.Select(t =>
+                $"{t.Area:F2},{t.Category},{t.LandLocation}," +
+                $"{t.AnnualRentPrice:F2},{t.LandDescription ?? ""}"));
+
+            File.WriteAllLines(dialog.FileName, lines,
+                System.Text.Encoding.UTF8);
+            AfiseazaInfo($"Date exportate cu succes în:\n{dialog.FileName}");
+        }
+        catch (Exception ex) { TrateazaExceptie(ex, "export CSV"); }
     }
 }
