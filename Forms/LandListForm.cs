@@ -296,16 +296,30 @@ public class LandListForm : FormBase
         var teren = GetTerenSelectat();
         if (teren == null) { AfiseazaInfo("Selectați un teren!"); return; }
 
-        if (!ConfirmaActiune(
-            $"Sigur doriți să ștergeți terenul:\n" +
-            $"'{teren.LandName}'?\n\nToate contractele asociate vor fi șterse!",
-            "Confirmare ștergere teren")) return;
+        // Verifică dacă există contracte
+        var nrContracte = ServiceLocator.ContractRepo.GetAll()
+            .Count(c => c.LandId == teren.LandId);
+
+        string mesaj = $"Sigur doriți să ștergeți terenul:\n'{teren.LandDescription}'?";
+        if (nrContracte > 0)
+            mesaj += $"\n\n⚠ ATENȚIE: Există {nrContracte} contract(e) asociat(e)!" +
+                     "\nAcestea vor fi șterse automat!";
+
+        if (!ConfirmaActiune(mesaj, "Confirmare ștergere teren")) return;
 
         try
         {
             ServiceLocator.LandRepo.Delete(teren.LandId);
-            AfiseazaInfo("Terenul a fost șters!");
+            AfiseazaInfo("Terenul și contractele aferente au fost șterse!");
             IncarcaFiltreDropDown(); IncarcaDate();
+        }
+        catch (Microsoft.Data.SqlClient.SqlException ex)
+            when (ex.Number == 547)
+        {
+            AfiseazaEroare(
+                "Nu se poate șterge terenul — există contracte active!\n" +
+                "Ștergeți mai întâi contractele asociate.",
+                "Eroare constrângere FK");
         }
         catch (Exception ex) { TrateazaExceptie(ex, "ștergere teren"); }
     }

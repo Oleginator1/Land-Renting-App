@@ -101,5 +101,13 @@ namespace LandRentManagementApp.Data
             const string sql = "SELECT DISTINCT Category FROM dbo.Land ORDER BY Category";
             return DatabaseHelper.ExecuteReader(sql, r => r.GetString(0));
         }
+
+        public bool AreContracte(int idTeren)
+        {
+            const string sql = @"SELECT COUNT(1) FROM dbo.Contract WHERE IdTeren=@Id";
+            var result = DatabaseHelper.ExecuteScalar(sql,
+                p => p.AddWithValue("@Id", idTeren));
+            return Convert.ToInt32(result) > 0;
+        }
     }
 }
