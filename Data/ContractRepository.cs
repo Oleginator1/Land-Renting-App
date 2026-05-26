@@ -66,7 +66,7 @@ namespace LandRentManagementApp.Data
             UPDATE dbo.RentContract
             SET FarmerId=@FarmerId, LandId=@LandId,
                 ContractSignDate=@ContractSignDate, YearsPayed=@YearsPayed
-            WHERE IdContract=@Id";
+            WHERE ContractId=@Id";
             DatabaseHelper.ExecuteNonQuery(sql, p =>
             {
                 p.AddWithValue("@FarmerId", c.FarmerId);

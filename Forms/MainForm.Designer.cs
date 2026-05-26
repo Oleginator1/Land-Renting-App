@@ -84,7 +84,7 @@
             menuContracte.Name = "menuContracte";
             menuContracte.Size = new Size(225, 24);
             menuContracte.Text = "📄 Contracte de Arendă";
-            //menuContracte.Click += menuContracte_Click;
+            menuContracte.Click += menuContracte_Click;
             // 
             // menuItemRapoarte
             // 
