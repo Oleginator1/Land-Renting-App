@@ -296,7 +296,7 @@ public class LandListForm : FormBase
         var teren = GetTerenSelectat();
         if (teren == null) { AfiseazaInfo("Selectați un teren!"); return; }
 
-        // Verifică dacă există contracte
+        
         var nrContracte = ServiceLocator.ContractRepo.GetAll()
             .Count(c => c.LandId == teren.LandId);
 
