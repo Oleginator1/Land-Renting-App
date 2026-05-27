@@ -16,5 +16,6 @@ namespace LandRentManagementApp.Data
         void Delete(int id);
         List<Contract> GetByFarmer(int idFarmer);
         bool ExistsDuplicate(int idFarmer, int idLand, int excludeId = 0);
+        bool TerenOcupat(int idTeren, int excludeId = 0);
     }
 }

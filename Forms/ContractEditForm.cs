@@ -181,15 +181,14 @@ public class ContractEditForm : FormBase
 
         try
         {
-            if (ServiceLocator.ContractRepo.ExistsDuplicate(
-                fermier.FarmerId, teren.LandId, excludeId))
+            if (ServiceLocator.ContractRepo.TerenOcupat(
+               teren.LandId, excludeId))
             {
-                AfiseazaEroare(
-                    "Există deja un contract activ pentru\n" +
-                    $"fermierul '{fermier.FullName}'\n" +
-                    $"și terenul '{teren.LandName}'!\n\n" +
-                    "Nu sunt permise contracte duplicate!");
-                return;
+                if (!ConfirmaActiune(
+                    $"Terenul '{teren.LandName}' are deja un contract activ.\n" +
+                    "Doriți totuși să continuați?",
+                    "Atenție — Teren ocupat"))
+                    return;
             }
 
             var contract = new Contract

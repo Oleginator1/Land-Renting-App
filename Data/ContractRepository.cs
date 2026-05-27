@@ -105,5 +105,19 @@ namespace LandRentManagementApp.Data
             });
             return Convert.ToInt32(result) > 0;
         }
+
+        public bool TerenOcupat(int idTeren, int excludeId = 0)
+        {
+            const string sql = @"
+        SELECT COUNT(1) FROM dbo.RentContract
+        WHERE LandId = @LandId AND ContractId <> @ExcludeId";
+            var r = DatabaseHelper.ExecuteScalar(sql, p =>
+            {
+                p.AddWithValue("@LandId", idTeren);
+                p.AddWithValue("@ExcludeId", excludeId);
+            });
+            return Convert.ToInt32(r) > 0;
+        }
+
     }
 }
