@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.37203.1 d17.14
+VisualStudioVersion = 17.14.37203.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandRentManagementApp", "LandRentManagementApp.csproj", "{155DF87A-DC26-431B-93FF-C1AA8F1783FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagazinAlimentar", "..\MagazinAlimentar\MagazinAlimentar.csproj", "{222D70CB-B1AD-47E3-9162-5F6B039503E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{155DF87A-DC26-431B-93FF-C1AA8F1783FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{155DF87A-DC26-431B-93FF-C1AA8F1783FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{155DF87A-DC26-431B-93FF-C1AA8F1783FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{222D70CB-B1AD-47E3-9162-5F6B039503E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{222D70CB-B1AD-47E3-9162-5F6B039503E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{222D70CB-B1AD-47E3-9162-5F6B039503E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{222D70CB-B1AD-47E3-9162-5F6B039503E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

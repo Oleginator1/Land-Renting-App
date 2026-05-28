@@ -16,7 +16,10 @@ public class ContractListForm : FormBase
     private Button btnDelete = new();
     private Label lblCount = new();
 
-    
+    private string _sortColumn = "";
+    private bool _sortAscending = true;
+
+
     public ContractListForm(Farmer? fermierFilter = null)
     {
         _fermierFilter = fermierFilter;
@@ -113,9 +116,24 @@ public class ContractListForm : FormBase
     {
         try
         {
-            List<Contract> lista = _fermierFilter != null
+            var lista = _fermierFilter != null
                 ? ServiceLocator.ContractRepo.GetByFarmer(_fermierFilter.FarmerId)
-                : ServiceLocator.ContractRepo.GetAll();
+                 : ServiceLocator.ContractRepo.GetAll();
+
+
+            lista = _sortColumn switch
+            {
+                "SumaTotala" => _sortAscending
+                    ? lista.OrderBy(c => c.TotalSum).ToList()
+                    : lista.OrderByDescending(c => c.TotalSum).ToList(),
+                "DataSemnare" => _sortAscending
+                    ? lista.OrderBy(c => c.ContractSignDate).ToList()
+                    : lista.OrderByDescending(c => c.ContractSignDate).ToList(),
+                "AniAchitati" => _sortAscending
+                    ? lista.OrderBy(c => c.YearsPayed).ToList()
+                    : lista.OrderByDescending(c => c.YearsPayed).ToList(),
+                _ => lista
+            };
 
             grid.DataSource = lista.Select(c => new
             {
@@ -185,4 +203,16 @@ public class ContractListForm : FormBase
         }
         catch (Exception ex) { TrateazaExceptie(ex, "anulare contract"); }
     }
+
+    private void InitGridSortare()
+    {
+        grid.ColumnHeaderMouseClick += (s, e) =>
+        {
+            var col = grid.Columns[e.ColumnIndex].Name;
+            if (_sortColumn == col) _sortAscending = !_sortAscending;
+            else { _sortColumn = col; _sortAscending = true; }
+            IncarcaDate();
+        };
+    }
+
 }
