@@ -17,5 +17,7 @@ namespace LandRentManagementApp.Data
         List<Contract> GetByFarmer(int idFarmer);
         bool ExistsDuplicate(int idFarmer, int idLand, int excludeId = 0);
         bool TerenOcupat(int idTeren, int excludeId = 0);
+        (string Teren, int NrContracte) GetTerenCeleMaiMulteContracte();
+        Dictionary<string, decimal> GetSumePerFermier();
     }
 }
