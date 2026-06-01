@@ -119,5 +119,41 @@ namespace LandRentManagementApp.Data
             return Convert.ToInt32(r) > 0;
         }
 
+        public Dictionary<string, decimal> GetSumePerFermier()
+        {
+            const string sql = @"
+        SELECT f.Name + ' ' + f.Surname,
+               SUM(c.YearsPayed * t.AnnualRentPrice) AS Suma
+        FROM dbo.Contract c
+        INNER JOIN dbo.Farmer f ON c.FarmerId = f.FarmerId
+        INNER JOIN dbo.Land   t ON c.LandId   = t.LandId
+        GROUP BY f.Name, f.Surname, f.FarmerId
+        ORDER BY Suma DESC";
+
+            var result = new Dictionary<string, decimal>();
+            DatabaseHelper.ExecuteReader(sql, r =>
+            {
+                result[r.GetString(0)] = r.GetDecimal(1);
+                return true;
+            });
+            return result;
+        }
+
+        public (string Teren, int NrContracte) GetTerenCeleMaiMulteContracte()
+        {
+            const string sql = @"
+        SELECT TOP 1
+            t.Category + ' — ' + t.LandLocation,
+            COUNT(c.ContractId)
+        FROM dbo.Contract c
+        INNER JOIN dbo.Land t ON c.LandId = t.LandId
+        GROUP BY t.LandId, t.Category, t.LandLocation
+        ORDER BY COUNT(c.ContractId) DESC";
+
+            var r = DatabaseHelper.ExecuteReader(sql,
+                reader => (reader.GetString(0), reader.GetInt32(1)));
+            return r.FirstOrDefault();
+        }
+
     }
 }
