@@ -15,6 +15,7 @@ public class ReportForm : FormBase
     private Label lblTotalFerm = new();
     private Button btnInchide = new();
     private Button btnPrint = new();
+    private Panel panelGrafic = new();
 
     public ReportForm()
     {
@@ -201,5 +202,54 @@ public class ReportForm : FormBase
     {
         
         AfiseazaInfo("Funcția de printare va fi disponibilă în curând.");
+    }
+
+    private void AdaugaGraficSimple(List<(string Fermier, decimal Suma)> date)
+    {
+        panelGrafic.Controls.Clear();
+        if (!date.Any()) return;
+
+        decimal maxSuma = date.Max(x => x.Suma);
+        int yOffset = 10;
+
+        foreach (var (fermier, suma) in date.Take(8))
+        {
+            var lblNume = new Label
+            {
+                Text = fermier,
+                Left = 10,
+                Top = yOffset,
+                Width = 180,
+                Height = 22,
+                Font = UITheme.FontSmall,
+                TextAlign = ContentAlignment.MiddleRight
+            };
+
+            int barWidth = maxSuma > 0
+                ? (int)(350 * suma / maxSuma) : 0;
+
+            var bar = new Panel
+            {
+                Left = 200,
+                Top = yOffset + 3,
+                Width = barWidth,
+                Height = 18,
+                BackColor = UITheme.LightGreen
+            };
+
+            var lblVal = new Label
+            {
+                Text = $"{suma:N0} RON",
+                Left = 205 + barWidth,
+                Top = yOffset,
+                Width = 120,
+                Height = 22,
+                Font = UITheme.FontSmall,
+                ForeColor = UITheme.TextGray
+            };
+
+            panelGrafic.Controls.AddRange(new Control[] { lblNume, bar, lblVal });
+            yOffset += 28;
+        }
     }
 }
