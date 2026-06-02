@@ -155,5 +155,27 @@ namespace LandRentManagementApp.Data
             return r.FirstOrDefault();
         }
 
+
+        public List<(string Fermier, string Localitate, int NrContracte, decimal SumaTotala, DateTime? PrimulContract)> GetRaportFermieri()
+        {
+            const string sql = @"
+        SELECT f.Name + ' ' + f.Surname,
+               f.Residence,
+               COUNT(c.ContractId),
+               SUM(c.YearsPayed * t.AnnualRentPrice),
+               MIN(c.ContractSignDate)
+        FROM dbo.Farmer f
+        INNER JOIN dbo.Contract c ON f.FarmerId = c.FarmerId
+        INNER JOIN dbo.Land    t ON c.LandId   = t.LandId
+        GROUP BY f.FarmerId, f.Name, f.Surname, f.Residence
+        ORDER BY SUM(c.YearsPayed * t.AnnualRentPrice) DESC";
+
+            return DatabaseHelper.ExecuteReader(sql, r =>
+                (r.GetString(0), r.GetString(1), r.GetInt32(2),
+                 r.GetDecimal(3), r.IsDBNull(4) ? (DateTime?)null
+                     : r.GetDateTime(4)));
+        }
     }
+
+
 }
