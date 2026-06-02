@@ -181,7 +181,7 @@ public class LandListForm : FormBase
                     $"🌾 Suprafață:\n  {teren.Area:F2} ha\n\n" +
                     $"📂 Categorie:\n  {teren.Category}\n\n" +
                     $"📍 Zonă:\n  {teren.LandLocation}\n\n" +
-                    $"💰 Preț/An:\n  {teren.AnnualRentPrice:N2} RON\n\n" +
+                    $"💰 Preț/An:\n  {teren.AnnualRentPrice:N2} Lei\n\n" +
                     $"📝 Descriere:\n  {teren.LandDescription ?? "—"}";
             }
         };
@@ -340,7 +340,7 @@ public class LandListForm : FormBase
             var lista = ServiceLocator.LandRepo.GetAll();
             var lines = new List<string>
         {
-            "Suprafata (ha),Categorie,Zona,Pret Arenda Anual (RON),Descriere"
+            "Suprafata (ha),Categorie,Zona,Pret Arenda Anual (Lei),Descriere"
         };
 
             lines.AddRange(lista.Select(t =>

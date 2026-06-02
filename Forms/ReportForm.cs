@@ -201,8 +201,15 @@ public class ReportForm : FormBase
 
     private void BtnPrint_Click(object? sender, EventArgs e)
     {
-        
-        AfiseazaInfo("Funcția de printare va fi disponibilă în curând.");
+        var printDoc = new System.Drawing.Printing.PrintDocument();
+        printDoc.PrintPage += PrintDoc_PrintPage;
+
+        var preview = new System.Windows.Forms.PrintPreviewDialog
+        {
+            Document = printDoc,
+            WindowState = FormWindowState.Maximized
+        };
+        preview.ShowDialog(this);
     }
 
     private void AdaugaGraficSimple(List<(string Fermier, decimal Suma)> date)
@@ -240,7 +247,7 @@ public class ReportForm : FormBase
 
             var lblVal = new Label
             {
-                Text = $"{suma:N0} RON",
+                Text = $"{suma:N0} Lei",
                 Left = 205 + barWidth,
                 Top = yOffset,
                 Width = 120,
@@ -288,15 +295,15 @@ public class ReportForm : FormBase
                 if (!cF.Any()) continue;
                 decimal suma = cF.Sum(c => c.TotalSum);
                 total += suma;
-                sb.AppendLine($"{f.FullName,-30} {cF.Count,8} {suma,14:N2} RON");
+                sb.AppendLine($"{f.FullName,-30} {cF.Count,8} {suma,14:N2} Lei");
             }
 
             sb.AppendLine(new string('─', 60));
-            sb.AppendLine($"{"TOTAL GENERAL:",-30} {"",8} {total,14:N2} RON");
+            sb.AppendLine($"{"TOTAL GENERAL:",-30} {"",8} {total,14:N2} Lei");
             sb.AppendLine();
             sb.AppendLine("STATISTICI GENERALE:");
-            sb.AppendLine($"  • Suma totală încasată: {total:N2} RON");
-            sb.AppendLine($"  • Media per fermier:    {(fermieri.Count > 0 ? total / fermieri.Count : 0):N2} RON");
+            sb.AppendLine($"  • Suma totală încasată: {total:N2} Lei");
+            sb.AppendLine($"  • Media per fermier:    {(fermieri.Count > 0 ? total / fermieri.Count : 0):N2} Lei");
             var top = ServiceLocator.ContractRepo.GetTerenCeleMaiMulteContracte();
             sb.AppendLine($"  • Terenul cu mai multe contracte: {top.Teren}");
             sb.AppendLine();
@@ -306,5 +313,64 @@ public class ReportForm : FormBase
             AfiseazaInfo($"Raportul a fost exportat în:\n{dialog.FileName}");
         }
         catch (Exception ex) { TrateazaExceptie(ex, "export raport"); }
+    }
+
+    
+    private void PrintDoc_PrintPage(object sender,
+        System.Drawing.Printing.PrintPageEventArgs e)
+    {
+        var g = e.Graphics!;
+        float y = 40f;
+        float x = 50f;
+        float pageW = e.PageBounds.Width - 100f;
+
+        var fTitle = new Font("Segoe UI", 16f, FontStyle.Bold);
+        var fHeader = new Font("Segoe UI", 11f, FontStyle.Bold);
+        var fNormal = new Font("Segoe UI", 10f);
+        var fSmall = new Font("Segoe UI", 8f);
+        var brushDark = new SolidBrush(Color.FromArgb(30, 30, 30));
+        var brushGreen = new SolidBrush(UITheme.PrimaryGreen);
+        var penLine = new Pen(UITheme.PrimaryGreen, 1.5f);
+
+       
+        g.DrawString("RAPORT FINANCIAR — SISTEM EVIDENȚĂ ARENDĂ",
+            fTitle, brushGreen, x, y);
+        y += 30f;
+        g.DrawString($"Generat la: {DateTime.Now:dd.MM.yyyy HH:mm}",
+            fSmall, Brushes.Gray, x, y);
+        y += 15f;
+        g.DrawLine(penLine, x, y, x + pageW, y);
+        y += 15f;
+
+      
+        g.DrawString("Fermier", fHeader, brushDark, x, y);
+        g.DrawString("Nr. Contracte", fHeader, brushDark, x + 280, y);
+        g.DrawString("Sumă Totală", fHeader, brushDark, x + 400, y);
+        y += 20f;
+        g.DrawLine(penLine, x, y, x + pageW, y);
+        y += 10f;
+
+      
+        var contracte = ServiceLocator.ContractRepo.GetAll();
+        var fermieri = ServiceLocator.FarmerRepo.GetAll();
+        decimal total = 0;
+
+        foreach (var f in fermieri)
+        {
+            var cF = contracte.Where(c => c.FarmerId == f.FarmerId).ToList();
+            if (!cF.Any()) continue;
+            decimal suma = cF.Sum(c => c.TotalSum);
+            total += suma;
+            g.DrawString(f.FullName, fNormal, brushDark, x, y);
+            g.DrawString(cF.Count.ToString(), fNormal, brushDark, x + 280, y);
+            g.DrawString($"{suma:N2} Lei", fNormal, brushDark, x + 400, y);
+            y += 22f;
+        }
+
+        y += 10f;
+        g.DrawLine(penLine, x, y, x + pageW, y);
+        y += 10f;
+        g.DrawString($"TOTAL: {total:N2} Lei",
+            fHeader, brushGreen, x + 300, y);
     }
 }

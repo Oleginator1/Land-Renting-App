@@ -161,7 +161,7 @@ public class ContractEditForm : FormBase
             if (teren == null || !int.TryParse(txtAni.Text, out int ani) || ani <= 0)
             { lblSumaCalc.Text = "Sumă totală: —"; return; }
             var suma = teren.AnnualRentPrice * ani;
-            lblSumaCalc.Text = $"💰 Sumă totală: {suma:N2} RON";
+            lblSumaCalc.Text = $"💰 Sumă totală: {suma:N2} Lei";
         }
         catch { lblSumaCalc.Text = "Sumă totală: —"; }
     }
