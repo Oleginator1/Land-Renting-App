@@ -16,6 +16,7 @@ public class ReportForm : FormBase
     private Button btnInchide = new();
     private Button btnPrint = new();
     private Panel panelGrafic = new();
+    private Button btnExport = new();
 
     public ReportForm()
     {
@@ -251,5 +252,59 @@ public class ReportForm : FormBase
             panelGrafic.Controls.AddRange(new Control[] { lblNume, bar, lblVal });
             yOffset += 28;
         }
+    }
+
+
+    private void ExportRaport(object? sender, EventArgs e)
+    {
+        var dialog = new SaveFileDialog
+        {
+            Filter = "Text Files (*.txt)|*.txt",
+            FileName = $"Raport_Arenda_{DateTime.Now:yyyyMMdd_HHmm}.txt"
+        };
+
+        if (dialog.ShowDialog() != DialogResult.OK) return;
+
+        try
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine("═══════════════════════════════════════════════════════");
+            sb.AppendLine("         RAPORT FINANCIAR — SISTEM EVIDENȚĂ ARENDĂ");
+            sb.AppendLine($"         Generat la: {DateTime.Now:dd.MM.yyyy HH:mm:ss}");
+            sb.AppendLine("═══════════════════════════════════════════════════════");
+            sb.AppendLine();
+            sb.AppendLine("LISTA FERMIERI ȘI SUMELE ACHITATE:");
+            sb.AppendLine(new string('─', 60));
+            sb.AppendLine($"{"Fermier",-30} {"Nr.Contr",8} {"Sumă Totală",15}");
+            sb.AppendLine(new string('─', 60));
+
+            var contracte = ServiceLocator.ContractRepo.GetAll();
+            var fermieri = ServiceLocator.FarmerRepo.GetAll();
+            decimal total = 0;
+
+            foreach (var f in fermieri)
+            {
+                var cF = contracte.Where(c => c.FarmerId == f.FarmerId).ToList();
+                if (!cF.Any()) continue;
+                decimal suma = cF.Sum(c => c.TotalSum);
+                total += suma;
+                sb.AppendLine($"{f.FullName,-30} {cF.Count,8} {suma,14:N2} RON");
+            }
+
+            sb.AppendLine(new string('─', 60));
+            sb.AppendLine($"{"TOTAL GENERAL:",-30} {"",8} {total,14:N2} RON");
+            sb.AppendLine();
+            sb.AppendLine("STATISTICI GENERALE:");
+            sb.AppendLine($"  • Suma totală încasată: {total:N2} RON");
+            sb.AppendLine($"  • Media per fermier:    {(fermieri.Count > 0 ? total / fermieri.Count : 0):N2} RON");
+            var top = ServiceLocator.ContractRepo.GetTerenCeleMaiMulteContracte();
+            sb.AppendLine($"  • Terenul cu mai multe contracte: {top.Teren}");
+            sb.AppendLine();
+            sb.AppendLine("═══════════════════════════════════════════════════════");
+
+            File.WriteAllText(dialog.FileName, sb.ToString(), System.Text.Encoding.UTF8);
+            AfiseazaInfo($"Raportul a fost exportat în:\n{dialog.FileName}");
+        }
+        catch (Exception ex) { TrateazaExceptie(ex, "export raport"); }
     }
 }
