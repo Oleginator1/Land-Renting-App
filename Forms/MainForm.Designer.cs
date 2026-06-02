@@ -99,7 +99,7 @@
             menuRaport.Name = "menuRaport";
             menuRaport.Size = new Size(199, 24);
             menuRaport.Text = "📈 Raport Financiar";
-            //menuRaport.Click += menuRaport_Click;
+            menuRaport.Click += menuRaport_Click;
             // 
             // menuItemAplicatie
             // 

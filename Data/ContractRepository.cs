@@ -124,7 +124,7 @@ namespace LandRentManagementApp.Data
             const string sql = @"
         SELECT f.Name + ' ' + f.Surname,
                SUM(c.YearsPayed * t.AnnualRentPrice) AS Suma
-        FROM dbo.Contract c
+        FROM dbo.RentContract c
         INNER JOIN dbo.Farmer f ON c.FarmerId = f.FarmerId
         INNER JOIN dbo.Land   t ON c.LandId   = t.LandId
         GROUP BY f.Name, f.Surname, f.FarmerId
@@ -145,14 +145,15 @@ namespace LandRentManagementApp.Data
         SELECT TOP 1
             t.Category + ' — ' + t.LandLocation,
             COUNT(c.ContractId)
-        FROM dbo.Contract c
+        FROM dbo.RentContract c
         INNER JOIN dbo.Land t ON c.LandId = t.LandId
         GROUP BY t.LandId, t.Category, t.LandLocation
         ORDER BY COUNT(c.ContractId) DESC";
 
-            var r = DatabaseHelper.ExecuteReader(sql,
-                reader => (reader.GetString(0), reader.GetInt32(1)));
-            return r.FirstOrDefault();
+            var rezultate = DatabaseHelper.ExecuteReader(sql,
+                r => (r.GetString(0), r.GetInt32(1)));
+
+            return rezultate.FirstOrDefault(("Niciun teren", 0));
         }
 
 
@@ -165,7 +166,7 @@ namespace LandRentManagementApp.Data
                SUM(c.YearsPayed * t.AnnualRentPrice),
                MIN(c.ContractSignDate)
         FROM dbo.Farmer f
-        INNER JOIN dbo.Contract c ON f.FarmerId = c.FarmerId
+        INNER JOIN dbo.RentContract c ON f.FarmerId = c.FarmerId
         INNER JOIN dbo.Land    t ON c.LandId   = t.LandId
         GROUP BY f.FarmerId, f.Name, f.Surname, f.Residence
         ORDER BY SUM(c.YearsPayed * t.AnnualRentPrice) DESC";

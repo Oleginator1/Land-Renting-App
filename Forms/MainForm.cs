@@ -19,6 +19,7 @@ namespace LandRentManagementApp.Forms
         private System.Windows.Forms.Timer clockTimer = new();
         public MainForm()
         {
+            InitializeComponent();
             clockTimer.Interval = 1000;
             clockTimer.Tick += (s, e) =>
                 statusTime.Text = $"⏰ {DateTime.Now:HH:mm:ss}";
@@ -30,7 +31,7 @@ namespace LandRentManagementApp.Forms
             statusStrip.Items.Add(statusUser);
             statusStrip.Items.Add(new ToolStripSeparator());
             statusStrip.Items.Add(statusTime);
-            InitializeComponent();
+            
             TestConnection();
 
         }
@@ -76,8 +77,8 @@ namespace LandRentManagementApp.Forms
         private void menuContracte_Click(object sender, EventArgs e)
             => AfiseazaFormular(new ContractListForm());
 
-        /*private void menuRaport_Click(object sender, EventArgs e)
-            => new ReportForm().ShowDialog(this);*/
+        private void menuRaport_Click(object sender, EventArgs e)
+            => new ReportForm().ShowDialog(this);
 
         private void menuIesire_Click(object sender, EventArgs e)
         {

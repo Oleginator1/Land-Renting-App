@@ -104,7 +104,7 @@ namespace LandRentManagementApp.Data
 
         public bool AreContracte(int idTeren)
         {
-            const string sql = @"SELECT COUNT(1) FROM dbo.Contract WHERE LandId=@Id";
+            const string sql = @"SELECT COUNT(1) FROM dbo.RentContract WHERE LandId=@Id";
             var result = DatabaseHelper.ExecuteScalar(sql,
                 p => p.AddWithValue("@Id", idTeren));
             return Convert.ToInt32(result) > 0;
