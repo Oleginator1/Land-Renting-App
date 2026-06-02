@@ -2,6 +2,7 @@
 
 public partial class FormBase : Form
 {
+    protected ToolTip toolTip = new ToolTip();
     protected void AfiseazaEroare(string mesaj, string titlu = "Eroare")
     {
         MessageBox.Show(mesaj, titlu,
@@ -79,4 +80,10 @@ public partial class FormBase : Form
             $"Eroare la {operatie}:\n{ex.Message}",
             "Eroare neașteptată");
     }
+
+    protected void AdaugaTooltip(Control control, string text)
+    {
+        toolTip.SetToolTip(control, text);
+    }
+
 }

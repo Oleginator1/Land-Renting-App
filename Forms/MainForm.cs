@@ -14,8 +14,22 @@ namespace LandRentManagementApp.Forms
 {
     public partial class MainForm : Form
     {
+        private ToolStripStatusLabel statusTime = new();
+        private ToolStripStatusLabel statusUser = new();
+        private System.Windows.Forms.Timer clockTimer = new();
         public MainForm()
         {
+            clockTimer.Interval = 1000;
+            clockTimer.Tick += (s, e) =>
+                statusTime.Text = $"⏰ {DateTime.Now:HH:mm:ss}";
+            clockTimer.Start();
+
+            statusUser.Text = $"👤 {Environment.UserName}";
+            statusStrip.Items.Insert(0, new ToolStripStatusLabel
+            { Spring = true }); // spacer
+            statusStrip.Items.Add(statusUser);
+            statusStrip.Items.Add(new ToolStripSeparator());
+            statusStrip.Items.Add(statusTime);
             InitializeComponent();
             TestConnection();
 

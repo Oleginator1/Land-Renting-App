@@ -66,6 +66,15 @@ public class FarmerEditForm : FormBase
         AdaugaCamp(layout, "Telefon:", txtTelefon, 5);
         AdaugaCamp(layout, "Email:", txtEmail, 6);
 
+        AdaugaTooltip(txtIDNP,
+    "IDNP-ul trebuie să conțină exact 13 cifre.\n" +
+    "Exemplu: 1850312234561");
+        AdaugaTooltip(txtEmail,
+            "Email opțional.\nExemplu: nume@domeniu.com");
+        AdaugaTooltip(txtTelefon,
+            "Telefon opțional.\nExemplu: 071234567");
+
+
         var panelBtns = new FlowLayoutPanel
         {
             FlowDirection = FlowDirection.RightToLeft,
